@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinstudy.R
+import com.example.kotlinstudy.addedit.AddEditTodoActivity
 import com.example.kotlinstudy.room.database.MyDatabase
 import com.example.kotlinstudy.room.entitiy.TodoItem
 
@@ -34,6 +35,14 @@ class MainTodoAdapter(private val context: Context) : RecyclerView.Adapter<MainT
         notifyDataSetChanged()
     }
 
+    fun refresh() {
+        myDatabase?.todoDao()?.getTodos()?.also {
+            itemList.clear()
+            itemList.addAll(it)
+            notifyDataSetChanged()
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainTodoViewHolder {
         var viewHolder = MainTodoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false))
 
@@ -50,7 +59,10 @@ class MainTodoAdapter(private val context: Context) : RecyclerView.Adapter<MainT
                 when(menu[which]){
                     "삭제"->deleteItem(itemList[viewHolder.adapterPosition])
                     "수정"->{
-
+                        val editIntent = Intent(context, AddEditTodoActivity::class.java)
+                        editIntent.putExtra("mode", AddEditTodoActivity.MODE_EDIT)
+                        editIntent.putExtra("item_id", itemList[viewHolder.adapterPosition].id)
+                        context.startActivity(editIntent)
                     }
                     "취소"->{}
                     else->{
