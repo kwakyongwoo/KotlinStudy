@@ -129,9 +129,9 @@ class AddEditTodoActivity : AppCompatActivity() {
 
         DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
             val sMonth: String = if (month + 1 < 10) {
-                "0$month"
+                "0${month + 1}"
             } else {
-                month.toString()
+                (month + 1).toString()
             }
             val sDay: String = if(dayOfMonth < 10) {
                 "0$dayOfMonth"

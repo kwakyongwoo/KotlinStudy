@@ -7,11 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinstudy.R
 import com.example.kotlinstudy.addedit.AddEditTodoActivity
 import com.example.kotlinstudy.room.database.MyDatabase
 import com.example.kotlinstudy.room.entitiy.TodoItem
+import java.util.*
 
 class MainTodoAdapter(private val context: Context) : RecyclerView.Adapter<MainTodoViewHolder>() {
     private val myDatabase: MyDatabase? = MyDatabase.getInstance(context)
