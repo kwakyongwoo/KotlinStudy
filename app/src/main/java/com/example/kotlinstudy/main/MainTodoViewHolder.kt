@@ -16,5 +16,6 @@ class MainTodoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             }
         }
         itemView.todo_tv_name.text = item.name
+        itemView.todo_tv_due_date.text = item.dDate
     }
 }
