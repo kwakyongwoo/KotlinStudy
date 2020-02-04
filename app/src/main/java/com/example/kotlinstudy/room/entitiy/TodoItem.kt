@@ -1,0 +1,15 @@
+package com.example.kotlinstudy.room.entitiy
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "todo")
+data class TodoItem(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    var name: String,
+    var sDate: String,
+    var eDate: String
+) {
+    var checked: Boolean = false
+}
