@@ -9,6 +9,7 @@ import com.example.kotlinstudy.room.entitiy.TodoItem
 import kotlinx.android.synthetic.main.item_todo.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.absoluteValue
 
 class MainTodoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     fun onbind(item: TodoItem) {
@@ -32,9 +33,12 @@ class MainTodoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val today = simpleDateFormat.parse("$mYear/$mMonth/$mDay")
 
         val left = (dDate.time - today.time) / (24*60*60*1000)
-        itemView.todo_tv_left.text = left.toString()
+
         if (left < 0) {
             itemView.todo_tv_left.setTextColor(Color.RED)
+            itemView.todo_tv_left.text = "D+${left.absoluteValue}"
+        } else {
+            itemView.todo_tv_left.text = "D-${left.absoluteValue}"
         }
     }
 }
