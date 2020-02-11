@@ -1,26 +1,23 @@
-package com.example.kotlinstudy.main
+package com.example.kotlinstudy.main.todo
 
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinstudy.R
 import com.example.kotlinstudy.addedit.AddEditTodoActivity
 import com.example.kotlinstudy.room.database.MyDatabase
 import com.example.kotlinstudy.room.entitiy.TodoItem
-import java.util.*
 
-class MainTodoAdapter(private val context: Context) : RecyclerView.Adapter<MainTodoViewHolder>() {
+class TodoAdapter(private val context: Context) : RecyclerView.Adapter<TodoViewHolder>() {
     private val myDatabase: MyDatabase? = MyDatabase.getInstance(context)
     var itemList: MutableList<TodoItem> = mutableListOf()
 
     init {
-        val items = myDatabase?.todoDao()?.getTodos()?.also {
+        val items = myDatabase?.todoDao()?.getAllTodo()?.also {
             itemList.addAll(it)
         }
         notifyDataSetChanged()
@@ -38,15 +35,21 @@ class MainTodoAdapter(private val context: Context) : RecyclerView.Adapter<MainT
     }
 
     fun refresh() {
-        myDatabase?.todoDao()?.getTodos()?.also {
+        myDatabase?.todoDao()?.getAllTodo()?.also {
             itemList.clear()
             itemList.addAll(it)
             notifyDataSetChanged()
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainTodoViewHolder {
-        var viewHolder = MainTodoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
+        var viewHolder = TodoViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_todo,
+                parent,
+                false
+            )
+        )
 
         viewHolder.itemView.setOnClickListener {
             itemList[viewHolder.adapterPosition].checked = !itemList[viewHolder.adapterPosition].checked
@@ -82,7 +85,7 @@ class MainTodoAdapter(private val context: Context) : RecyclerView.Adapter<MainT
         return itemList.size
     }
 
-    override fun onBindViewHolder(holder: MainTodoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.onbind(itemList[position])
     }
 

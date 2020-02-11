@@ -1,42 +1,43 @@
 package com.example.kotlinstudy.main
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinstudy.R
-import com.example.kotlinstudy.addedit.AddEditTodoActivity
+import com.example.kotlinstudy.main.done.DoneFragment
+import com.example.kotlinstudy.main.todo.TodoFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    private var adapter: MainTodoAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        adapter = MainTodoAdapter(this)
-        main_rcv_item.adapter = adapter
-        main_rcv_item.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        val fragment1 = TodoFragment()
+        val fragment2 = DoneFragment()
 
-        main_fab_add.setOnClickListener {
-//            val newTodo = TodoItem(0, System.currentTimeMillis().toString(), "asd", "qwe")
-//            adapter?.addItem(newTodo)
-            val addIntent = Intent(this, AddEditTodoActivity::class.java)
-            addIntent.putExtra("mode", AddEditTodoActivity.MODE_ADD)
-            startActivity(addIntent)
+        supportActionBar?.title = "Todo List"
+        supportFragmentManager.beginTransaction().replace(R.id.main_frameLayout, fragment1).commitAllowingStateLoss()
+
+        main_bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.navigation_main_todo -> {
+                    supportActionBar?.title = "Todo List"
+                    supportFragmentManager.beginTransaction().replace(R.id.main_frameLayout, fragment1)
+                        .commitAllowingStateLoss()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_main_done -> {
+                    supportActionBar?.title = "Done List"
+                    supportFragmentManager.beginTransaction().replace(R.id.main_frameLayout, fragment2)
+                        .commitAllowingStateLoss()
+                    return@setOnNavigationItemSelectedListener true
+                }
+
+                else -> {
+                    return@setOnNavigationItemSelectedListener true
+                }
+            }
         }
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        adapter?.refresh()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        adapter?.refresh()
     }
 }

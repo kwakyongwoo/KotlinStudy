@@ -1,8 +1,7 @@
-package com.example.kotlinstudy.main
+package com.example.kotlinstudy.main.todo
 
 import android.graphics.Color
 import android.graphics.Paint
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinstudy.room.entitiy.TodoItem
@@ -11,7 +10,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.absoluteValue
 
-class MainTodoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+class TodoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     fun onbind(item: TodoItem) {
         itemView.todo_cb.isChecked = item.checked.also {
             if(it) {
